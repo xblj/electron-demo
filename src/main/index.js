@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, globalShortcut,dialog,Tray, ipcMain as ipc } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -13,14 +13,16 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
+  const img = new Tray(`build/icons/my48x48.png`)
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    icon:'build/icons/my48x48.png'
   })
 
   mainWindow.loadURL(winURL)
@@ -30,7 +32,20 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+ globalShortcut.register('1', function () {
+    // dialog.showMessageBox({
+    //   type: 'info',
+    //   message: 'Success!',
+    //   detail: 'You pressed the registered global shortcut keybinding.',
+    //   buttons: ['OK']
+    // })
+    // ipc.send('num-clilk',)
+     mainWindow.webContents.send('num-clilk', 1);
+     console.log()
+  })
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -59,5 +74,7 @@ autoUpdater.on('update-downloaded', () => {
 })
 
 app.on('ready', () => {
+  // autoUpdater.checkForUpdates()
+  // console.log(autoUpdater.getFeedURL())
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
