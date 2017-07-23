@@ -17,12 +17,12 @@ function createWindow() {
   /**
    * Initial window options
    */
-  const img = new Tray(`build/icons/my48x48.png`)
+  // const img = new Tray(`build/icons/my48x48.png`)
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
     width: 1000,
-    icon:'build/icons/my48x48.png'
+    // icon:'build/icons/my48x48.png'
   })
 
   mainWindow.loadURL(winURL)
