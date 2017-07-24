@@ -9,6 +9,8 @@
             <el-button class="btn" @click="numClick(col)" v-for="(col,subIndex) in row" :key="subIndex" type="defaut">{{col}}</el-button>
         </div>
         <el-button>一个按钮</el-button>
+        <el-button>二个按钮</el-button>
+        <el-button>三个按钮</el-button>
     </div>
 </template>
 <script>
