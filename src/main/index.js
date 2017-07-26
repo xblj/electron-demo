@@ -42,7 +42,7 @@ app.on('ready', () => {
     // })
     // ipc.send('num-clilk',)
      mainWindow.webContents.send('num-clilk', 1);
-     console.log()
+    //  console.log()
   })
   createWindow()
 })
@@ -52,20 +52,56 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
+app.qwe='qwe';
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
 })
+ import rq from '../renderer/components/common/openBtn/main.js';
+rq(createWindow,app);
 
 /**
+ *  debug
+ */
+
+// Install `electron-debug` with `devtron`
+let debug = require('electron-debug');
+// debug({enabled:true, showDevTools: true });
+// console.log(ipc.on);
+ipc.on('open-debug',()=>{
+  console.log(222);
+  mainWindow.webContents.openDevTools();
+})
+ipc.on('close-debug',()=>{
+  console.log(333);
+  mainWindow.webContents.closeDevTools();
+  // debug({enabled:true,showDevTools:false});
+})
+
+// Install `vue-devtools`
+// app.on('ready', () => {
+//   let installExtension = require('electron-devtools-installer')
+//   installExtension.default(installExtension.VUEJS_DEVTOOLS)
+//     .then(() => {})
+//     .catch(err => {
+//       console.log('Unable to install `vue-devtools`: \n', err)
+//     })
+// })
+
+
+
+
+
+/**
+ * 
  * Auto Updater
  *
  * Uncomment the following code below and install `electron-updater` to
  * support auto updating. Code Signing with a valid certificate is required.
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
+
 
 import { autoUpdater } from 'electron-updater'
 

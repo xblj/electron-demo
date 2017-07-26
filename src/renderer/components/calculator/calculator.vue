@@ -1,15 +1,16 @@
 <template>
     <div class="cal">
+    
         <div class="res">
             <!-- <p>{{num1}}</p>
-            <p>{{op+' '+num2}}</p> -->
+                        <p>{{op+' '+num2}}</p> -->
             <p>{{result}}</p>
         </div>
         <div v-for="(row,index ) in myinterface" :key="index">
             <el-button class="btn" @click="numClick(col)" v-for="(col,subIndex) in row" :key="subIndex" type="defaut">{{col}}</el-button>
         </div>
         <div>
-            <el-button>一个按钮</el-button>
+            <el-button @click="toggleDebug">打开测试</el-button>
             <el-button>二个按钮</el-button>
             <el-button>三个按钮</el-button>
         </div>
@@ -17,10 +18,21 @@
             <el-button>一个按钮</el-button>
             <el-button>二个按钮</el-button>
             <el-button>三个按钮</el-button>
+            <open-btn></open-btn>
         </div>
     </div>
 </template>
 <script>
+// const remote = require('electron').remote;
+import { remote } from 'electron';
+// remote.require('electron').app.on('ready',()=>{
+//     console.log('ready');
+// });
+
+
+import openBtn from '@/components/common/openBtn/openDialog'
+console.log(openBtn);
+console.log(remote.require('electron').app.qwe);
 export default {
     data() {
         return {
@@ -35,21 +47,22 @@ export default {
             num1: 21,
             num2: 1,
             result: 0,
-            op: null
+            op: null,
+            debugShow: false
         }
     },
-    mounted(){
-        this.$electron.ipcRenderer.on('num-clilk',(ev,arg)=>{
-            // alert(2)
-            // console.log(ev,arg)
-            this.result=arg;
-            console.log(arg);
-        })
-        console.log(this.$electron);
+    mounted() {
+        // this.$electron.ipcRenderer.on('num-clilk',(ev,arg)=>{
+        //     // alert(2)
+        //     // console.log(ev,arg)
+        //     this.result=arg;
+        //     console.log(arg);
+        // })
+        // console.log(this.$electron);
     },
     methods: {
         numClick(num) {
-            this.result =num
+            this.result = num;
             // let isNum = isNaN(Number(num));
             // if (isNum || num === '.') {
             //     if (this.op) {
@@ -81,7 +94,20 @@ export default {
             //         break;
             //     }
             // }
+        },
+        toggleDebug() {
+            let ipc = this.$electron.ipcRenderer;
+            if (this.debugShow) {
+                ipc.send('open-debug');
+            } else {
+                ipc.send('close-debug');
+            }
+            this.debugShow =!this.debugShow;
+            console.log(this.debugShow)
         }
+    },
+    components: {
+        openBtn,
     }
 }
 </script>

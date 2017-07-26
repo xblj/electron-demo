@@ -1,6 +1,6 @@
 {
   "name": "my-electron",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "xiebing <xiebing@medlinker.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -74,7 +74,7 @@
     "css-loader": "^0.28.4",
     "del": "^2.2.1",
     "devtron": "^1.1.0",
-    "electron": "^1.7.2",
+    "electron": "1.7.2",
     "electron-builder": "^19.10.0",
     "electron-debug": "^1.1.0",
     "electron-devtools-installer": "^2.0.1",
