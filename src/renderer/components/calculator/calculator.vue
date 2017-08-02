@@ -3,15 +3,17 @@
     
         <div class="res">
             <!-- <p>{{num1}}</p>
-                        <p>{{op+' '+num2}}</p> -->
+                                <p>{{op+' '+num2}}</p> -->
             <p>{{result}}</p>
         </div>
         <div v-for="(row,index ) in myinterface" :key="index">
             <el-button class="btn" @click="numClick(col)" v-for="(col,subIndex) in row" :key="subIndex" type="defaut">{{col}}</el-button>
         </div>
+        <div id="img">
+        </div>
         <div>
             <el-button @click="toggleDebug">打开测试</el-button>
-            <el-button>二个按钮</el-button>
+            <el-button @click="capturer">截图</el-button>
             <el-button>三个按钮</el-button>
         </div>
         <div>
@@ -20,7 +22,11 @@
             <el-button>三个按钮</el-button>
             <open-btn></open-btn>
         </div>
-    </div>
+        <div>
+            <el-button>一个按钮</el-button>
+            <el-button>二个按钮</el-button>
+            <el-button>三个按钮</el-button>
+        </div>
 </template>
 <script>
 // const remote = require('electron').remote;
@@ -63,47 +69,55 @@ export default {
     methods: {
         numClick(num) {
             this.result = num;
-            // let isNum = isNaN(Number(num));
-            // if (isNum || num === '.') {
-            //     if (this.op) {
-            //         this.num1 += num;
-            //     } else {
-            //         this.num2 += num;
-            //     }
-            // } else {
-            //     switch (this.op) {
-            //         case '删除':
-            //             if (this.op) {
-            //                 this.num1 = this.num1.subStr(0, this.num1.length - 1);
-            //             } else {
-            //                 this.num2 = this.num2.subStr(0, this.num2.length - 1);
-            //             }
-            //         break;
-            //         case 'C':
-            //             this.num1=this.num2=this.result=0;
-            //         break;
-            //         case '/':this.op = '/';
-            //         break;
-            //          case '+':this.op = '+';
-            //         break;
-            //          case '-':this.op = '-';
-            //         break;
-            //         case '*':this.op = '*';
-            //         break;
-            //         case '*':this.op = '*';
-            //         break;
-            //     }
-            // }
         },
         toggleDebug() {
             let ipc = this.$electron.ipcRenderer;
             if (this.debugShow) {
-                ipc.send('open-debug');
-            } else {
                 ipc.send('close-debug');
+            } else {
+                ipc.send('open-debug');
             }
-            this.debugShow =!this.debugShow;
+            this.debugShow = !this.debugShow;
             console.log(this.debugShow)
+        },
+        capturer() {
+            let desktopCapturer = this.$electron.desktopCapturer
+            console.log(desktopCapturer);
+            desktopCapturer.getSources({ types: ['window', 'screen'] }, function (error, sources) {
+                if (error) throw error
+                for (var i = 0; i < sources.length; ++i) {
+                    console.log(sources[i])
+                    if (sources[i].name === 'Electron') {
+                        navigator.webkitGetUserMedia({
+                            audio: false,
+                            video: {
+                                mandatory: {
+                                    chromeMediaSource: 'desktop',
+                                    chromeMediaSourceId: sources[i].id,
+                                    minWidth: 1280,
+                                    maxWidth: 1280,
+                                    minHeight: 720,
+                                    maxHeight: 720
+                                }
+                            }
+                        }, gotStream, getUserMediaError);
+                        return
+                    }
+                }
+            });
+
+            function gotStream(stream) {
+                // console.log(document.querySelector('video'));
+                let img = document.createElement('img');
+                img.src = URL.createObjectURL(stream);
+                let oDiv = document.getElementById('img');
+                oDiv.appendChild(img);
+
+            }
+
+            function getUserMediaError(e) {
+                console.log('getUserMediaError')
+            }
         }
     },
     components: {
