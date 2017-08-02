@@ -1,6 +1,6 @@
 {
   "name": "my-electron",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "xiebing <xiebing@medlinker.com>",
   "description": "An electron-vue project",
   "license": null,
