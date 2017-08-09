@@ -84,37 +84,17 @@ export default {
             desktopCapturer.getSources({ types: ['window', 'screen'] }, function (error, sources) {
                 if (error) throw error
                 for (var i = 0; i < sources.length; ++i) {
-                    console.log(sources[i])
-                    if (sources[i].name === 'Electron') {
-                        navigator.webkitGetUserMedia({
-                            audio: false,
-                            video: {
-                                mandatory: {
-                                    chromeMediaSource: 'desktop',
-                                    chromeMediaSourceId: sources[i].id,
-                                    minWidth: 1280,
-                                    maxWidth: 1280,
-                                    minHeight: 720,
-                                    maxHeight: 720
-                                }
-                            }
-                        }, gotStream, getUserMediaError);
-                        return
-                    }
+                    console.log(sources[i].thumbnail.toDataURL());
+                    gotStream(sources[i].thumbnail.toDataURL());
                 }
             });
 
             function gotStream(stream) {
-                // console.log(document.querySelector('video'));
+                console.log(stream);
                 let img = document.createElement('img');
-                img.src = URL.createObjectURL(stream);
+                img.src = stream;
                 let oDiv = document.getElementById('img');
                 oDiv.appendChild(img);
-
-            }
-
-            function getUserMediaError(e) {
-                console.log('getUserMediaError')
             }
         }
     },

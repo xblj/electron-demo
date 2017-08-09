@@ -33,17 +33,17 @@ function createWindow() {
 }
 
 app.on('ready', () => {
- globalShortcut.register('1', function () {
-    // dialog.showMessageBox({
-    //   type: 'info',
-    //   message: 'Success!',
-    //   detail: 'You pressed the registered global shortcut keybinding.',
-    //   buttons: ['OK']
-    // })
-    // ipc.send('num-clilk',)
-     mainWindow.webContents.send('num-clilk', 1);
-    //  console.log()
-  })
+//  globalShortcut.register('1', function () {
+//     // dialog.showMessageBox({
+//     //   type: 'info',
+//     //   message: 'Success!',
+//     //   detail: 'You pressed the registered global shortcut keybinding.',
+//     //   buttons: ['OK']
+//     // })
+//     // ipc.send('num-clilk',)
+//      mainWindow.webContents.send('num-clilk', 1);
+//     //  console.log()
+//   })
   createWindow()
 })
 
@@ -65,32 +65,12 @@ rq(createWindow,app);
  *  debug
  */
 
-// Install `electron-debug` with `devtron`
-let debug = require('electron-debug');
-// debug({enabled:true, showDevTools: true });
-// console.log(ipc.on);
 ipc.on('open-debug',()=>{
-  console.log(222);
   mainWindow.webContents.openDevTools();
 })
 ipc.on('close-debug',()=>{
-  console.log(333);
   mainWindow.webContents.closeDevTools();
-  // debug({enabled:true,showDevTools:false});
 })
-
-// Install `vue-devtools`
-// app.on('ready', () => {
-//   let installExtension = require('electron-devtools-installer')
-//   installExtension.default(installExtension.VUEJS_DEVTOOLS)
-//     .then(() => {})
-//     .catch(err => {
-//       console.log('Unable to install `vue-devtools`: \n', err)
-//     })
-// })
-
-
-
 
 
 /**
@@ -110,7 +90,5 @@ autoUpdater.on('update-downloaded', () => {
 })
 
 app.on('ready', () => {
-  // autoUpdater.checkForUpdates()
-  // console.log(autoUpdater.getFeedURL())
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
