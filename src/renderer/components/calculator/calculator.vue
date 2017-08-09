@@ -1,16 +1,13 @@
 <template>
     <div class="cal">
     
-        <div class="res">
-            <!-- <p>{{num1}}</p>
-                                <p>{{op+' '+num2}}</p> -->
+         <div class="res">
             <p>{{result}}</p>
         </div>
         <div v-for="(row,index ) in myinterface" :key="index">
             <el-button class="btn" @click="numClick(col)" v-for="(col,subIndex) in row" :key="subIndex" type="defaut">{{col}}</el-button>
         </div>
-        <div id="img">
-        </div>
+        <div id="img"></div>
         <div>
             <el-button @click="toggleDebug">打开测试</el-button>
             <el-button @click="capturer">截图</el-button>
@@ -26,7 +23,8 @@
             <el-button>一个按钮</el-button>
             <el-button>二个按钮</el-button>
             <el-button>三个按钮</el-button>
-        </div>
+        </div> 
+    </div>
 </template>
 <script>
 // const remote = require('electron').remote;
