@@ -1,5 +1,6 @@
 <template>
-    <el-button type="default" @click="open">{{msg}}</el-button>
+    <el-button type="default" @click="open">
+        {{msg}}</el-button>
 </template>
 <script>
 export default {
@@ -13,12 +14,10 @@ export default {
             let remote = this.$electron.remote;
             let dialog = remote.dialog;
             dialog.showMessageBox({
-                options: {
-                    type: 'warning',
-                    button: ['ok', 'no'],
-                    title: '提示',
-                    detail: '这是个测试信息'
-                },
+                type: 'info',
+                button: ['ok', 'no'],
+                title: '提示',
+                detail: '这是一个单独的组件封装'
             });
         }
     }
