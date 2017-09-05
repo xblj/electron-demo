@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
+  ? `http://localhost:3000`
   : `file://${__dirname}/index.html`
 
 function createWindow() {
@@ -21,8 +21,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000,
-    // icon:'build/icons/my48x48.png'
+    width: 1000
   })
 
   mainWindow.loadURL(winURL)
@@ -52,14 +51,13 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-app.qwe='qwe';
+
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
 })
- import rq from '../renderer/components/common/openBtn/main.js';
-rq(createWindow,app);
+
 
 /**
  *  debug

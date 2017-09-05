@@ -7,23 +7,12 @@
         <div v-for="(row,index ) in myinterface" :key="index">
             <el-button class="btn" @click="numClick(col)" v-for="(col,subIndex) in row" :key="subIndex" type="defaut">{{col}}</el-button>
         </div>
-        <div id="img"></div>
+        <div id="img" @click="editImg"></div>
         <div>
             <el-button @click="toggleDebug">打开测试</el-button>
             <el-button @click="capturer">截图</el-button>
-            <el-button>三个按钮</el-button>
         </div>
-        <div>
-            <el-button>一个按钮</el-button>
-            <el-button>二个按钮</el-button>
-            <el-button>三个按钮</el-button>
-            <open-btn></open-btn>
-        </div>
-        <div>
-            <el-button>一个按钮</el-button>
-            <el-button>二个按钮</el-button>
-            <el-button>三个按钮</el-button>
-        </div> 
+        <canvas id="myCanvas" ref="myCanvas"></canvas>
     </div>
 </template>
 <script>
@@ -33,10 +22,7 @@ import { remote } from 'electron';
 //     console.log('ready');
 // });
 
-
 import openBtn from '@/components/common/openBtn/openDialog'
-console.log(openBtn);
-console.log(remote.require('electron').app.qwe);
 export default {
     data() {
         return {
@@ -56,6 +42,10 @@ export default {
         }
     },
     mounted() {
+        // this.$http.get(BASE_URL).then(res=>{
+        //     console.log(res);
+        // })
+        console.log(process.env.BASE_URL)
         // this.$electron.ipcRenderer.on('num-clilk',(ev,arg)=>{
         //     // alert(2)
         //     // console.log(ev,arg)
@@ -65,6 +55,13 @@ export default {
         // console.log(this.$electron);
     },
     methods: {
+        editImg(){
+            // let remote = this.$electron.remote;
+            // let imgWin = this.remote.BrowserWindow({
+
+            // })
+
+        },
         numClick(num) {
             this.result = num;
         },
@@ -80,11 +77,10 @@ export default {
         },
         capturer() {
             let desktopCapturer = this.$electron.desktopCapturer
-            console.log(desktopCapturer);
-            desktopCapturer.getSources({ types: ['window', 'screen'] }, function (error, sources) {
+            desktopCapturer.getSources({ types: ['screen'] }, function (error, sources) {
                 if (error) throw error
                 for (var i = 0; i < sources.length; ++i) {
-                    console.log(sources[i].thumbnail.toDataURL());
+                    console.log(sources[i]);
                     gotStream(sources[i].thumbnail.toDataURL());
                 }
             });
