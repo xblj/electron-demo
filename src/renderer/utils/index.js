@@ -4,4 +4,4 @@ const install = Vue => {
     Vue.prototype.$http = http;
 };
 
-export default {install}
+export default install

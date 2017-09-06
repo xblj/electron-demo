@@ -3,7 +3,7 @@ import { Message } from 'element-ui';
 
 const http = axios.create({
     baseURL: process.env.BASE_URL || '',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     timeout: 5000,
     withCredentials: true,
 });
@@ -17,13 +17,14 @@ http.interceptors.request.use(config => {
 // 请求收到后
 http.interceptors.response.use(res => {
     const data = res.data;
-    if (res.errcode !== 0) {
+    console.log(res.data);
+    if (data.errcode === 0) {
         return data;
     } else {
         Message({
             message: data.errmsg,
             type: 'error',
-            duration: 5 * 1000
+            duration: 3* 1000
         });
         return Promise.reject(data);
     }
@@ -32,8 +33,8 @@ http.interceptors.response.use(res => {
     Message({
         message: error.message,
         type: 'error',
-        duration: 5 * 1000
+        duration: 3 * 1000
     })
     return Promise.reject(error);
 });
-export default {http};
+export default http;
