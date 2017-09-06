@@ -90,7 +90,9 @@ let rendererConfig = {
     __filename: process.env.NODE_ENV !== 'production'
   },
   plugins: [
+    // 抽取公共的样式
     new ExtractTextPlugin('styles.css'),
+    // 生成模版文件
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
@@ -103,6 +105,7 @@ let rendererConfig = {
         ? path.resolve(__dirname, '../node_modules')
         : false
     }),
+    // 热替换
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ],
@@ -111,11 +114,13 @@ let rendererConfig = {
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '../dist/electron')
   },
+  // 后面的"$"代表精确匹配
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
       'vue$': 'vue/dist/vue.esm.js'
     },
+    // 导入模块时这些后缀名可以省略
     extensions: ['.js', '.vue', '.json', '.css', '.node']
   },
   target: 'electron-renderer'
@@ -128,7 +133,7 @@ if (process.env.NODE_ENV !== 'production') {
   rendererConfig.plugins.push(
     new webpack.DefinePlugin({
       '__static': `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`,
-      'process.env.BASE_URL': '"http://panel.qa.medlinker.com"'
+      'process.env': { 'BASE_URL': JSON.stringify('http://panel.qa.medlinker.com') }
     })
   )
 }

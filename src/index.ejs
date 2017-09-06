@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>my-electron</title>
-    <% if (htmlWebpackPlugin.options.nodeModules) { %>
-      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
-      <script>
-        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
-      </script>
-    <% } %>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- Set `__static` path to static files in production -->
-    <script>
-      if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
-    </script>
 
-    <!-- webpack builds are automatically injected -->
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>my-electron</title>
+  <% if (htmlWebpackPlugin.options.nodeModules) { %>
+    <!-- Add `node_modules/` to global paths so `require` works properly in development -->
+    <!-- 将“node_modules/” 添加到module的全局路径中，这样在使用“require”的时候就可以直接写模块名称（如：require('axios')），否则就必须全部写全路径-->
+    <script>
+      require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+    </script>
+    <% } %>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- 产品环境注入全局“__static”的绝对路径，保持和开发环境一样 -->
+  <script>
+    if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  </script>
+
+  <!-- webpack builds are automatically injected -->
+</body>
+
 </html>

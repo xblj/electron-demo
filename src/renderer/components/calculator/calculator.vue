@@ -45,7 +45,10 @@ export default {
         // this.$http.get(BASE_URL).then(res=>{
         //     console.log(res);
         // })
-        console.log(process.env.BASE_URL)
+        console.log(BASE_URL);
+        console.log(__static);
+        console.log(__dirname)
+        console.log(__filename)
         // this.$electron.ipcRenderer.on('num-clilk',(ev,arg)=>{
         //     // alert(2)
         //     // console.log(ev,arg)
