@@ -1,5 +1,5 @@
-import { app, BrowserWindow, globalShortcut,dialog,Tray, ipcMain as ipc } from 'electron'
-
+import { app, BrowserWindow, globalShortcut, dialog, Tray, ipcMain as ipc } from 'electron'
+const fs = require('fs');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -32,17 +32,17 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-//  globalShortcut.register('1', function () {
-//     // dialog.showMessageBox({
-//     //   type: 'info',
-//     //   message: 'Success!',
-//     //   detail: 'You pressed the registered global shortcut keybinding.',
-//     //   buttons: ['OK']
-//     // })
-//     // ipc.send('num-clilk',)
-//      mainWindow.webContents.send('num-clilk', 1);
-//     //  console.log()
-//   })
+  //  globalShortcut.register('1', function () {
+  //     // dialog.showMessageBox({
+  //     //   type: 'info',
+  //     //   message: 'Success!',
+  //     //   detail: 'You pressed the registered global shortcut keybinding.',
+  //     //   buttons: ['OK']
+  //     // })
+  //     // ipc.send('num-clilk',)
+  //      mainWindow.webContents.send('num-clilk', 1);
+  //     //  console.log()
+  //   })
   createWindow()
 })
 
@@ -63,12 +63,25 @@ app.on('activate', () => {
  *  debug
  */
 
-ipc.on('open-debug',()=>{
+ipc.on('open-debug', () => {
   mainWindow.webContents.openDevTools();
 })
-ipc.on('close-debug',()=>{
+ipc.on('close-debug', () => {
   mainWindow.webContents.closeDevTools();
 })
+// 打印
+ipc.on('print', () => {
+  mainWindow.webContents.print({silent:true,printBackground:true})
+  // mainWindow.webContents.printToPDF({}, function (err, data) {
+  //   if (err) throw err;
+  //   fs.writeFile('/print.pdf', data, function (err) {
+  //     if (err) throw err;
+  //     console.log('success')
+  //   })
+  // })
+})
+
+
 
 
 /**

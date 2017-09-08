@@ -1,7 +1,7 @@
 <template>
     <div class="cal">
-    
-         <div class="res">
+
+        <div class="res">
             <p>{{result}}</p>
         </div>
         <div v-for="(row,index ) in myinterface" :key="index">
@@ -9,6 +9,7 @@
         </div>
         <div id="img" @click="editImg"></div>
         <div>
+            <el-button @click="print">打印</el-button>
             <el-button @click="toggleDebug">打开测试</el-button>
             <el-button @click="capturer">截图</el-button>
         </div>
@@ -58,7 +59,12 @@ export default {
         // console.log(this.$electron);
     },
     methods: {
-        editImg(){
+        print() {
+            let ipc = this.$electron.ipcRenderer;
+            ipc.send('print');
+
+        },
+        editImg() {
             // let remote = this.$electron.remote;
             // let imgWin = this.remote.BrowserWindow({
 
@@ -80,7 +86,7 @@ export default {
         },
         capturer() {
             let desktopCapturer = this.$electron.desktopCapturer
-            desktopCapturer.getSources({ types: ['screen'] }, function (error, sources) {
+            desktopCapturer.getSources({ types: ['screen'] }, function(error, sources) {
                 if (error) throw error
                 for (var i = 0; i < sources.length; ++i) {
                     console.log(sources[i]);

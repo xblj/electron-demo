@@ -18,15 +18,16 @@ export default {
   data() {
     return {
       formData: {
-        username: '',
-        password: ''
+        username: 'admin@medlinker.net',
+        password: '123456'
       }
     }
   },
   methods: {
     login() {
       this.$http.post('/login', { username: this.formData.username, password: this.formData.password }).then(res=>{
-        this.$router.push('/logined')
+        this.$router.push('/vip-serve');
+        this.$store.commit('router/CHNAGE_TOP_BAR','/vip-serve')
       })
     }
   }
